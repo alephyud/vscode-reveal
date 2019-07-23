@@ -2,7 +2,7 @@
   "name": "vscode-reveal",
   "displayName": "vscode-reveal",
   "description": "Show markdown as revealJs presentation",
-  "version": "3.3.2",
+  "version": "3.3.3-ai",
   "publisher": "evilz",
   "author": "Vincent Bourdon",
   "license": "MIT",
@@ -246,6 +246,11 @@
           "type": "number",
           "default": null,
           "description": "Number of pixels to move the parallax background per slide"
+        },
+        "revealjs.plantumlServerUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "URL for local PlantUML server. Instructions for quick Docker startup: https://github.com/plantuml/plantuml-server#how-to-run-the-server-with-docker"
         },
         "revealjs.slideExplorerEnabled": {
           "type": "boolean",

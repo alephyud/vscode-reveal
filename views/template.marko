@@ -188,6 +188,7 @@
                 { src: 'libs/reveal.js/3.7.0/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
                 { src: 'libs/reveal.js/3.7.0/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
                // { src: 'libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'libs/reveal.js/3.7.0/plugin/anything/anything.js' },
                 
                 ${enableSearch ? `{ src: 'libs/reveal.js/3.7.0/plugin/search/search.js', async: true },` : ''}
                 ${enableZoom ? `{ src: 'libs/reveal.js/3.7.0/plugin/zoom-js/zoom.js', async: true },` : ''}
@@ -205,6 +206,9 @@
                 
                 { src: 'libs/reveal.js/3.7.0/plugin/math/math.js', async: true },
                 { src: 'libs/highlight.js/9.12.0/highlight.js', async: true },
+                ${plantumlServerUrl ? `{ src: 'libs/plantuml-encoder/1.2.5/plantuml-encoder.min.js' },` : ''}
+                { src: 'libs/viz.js/2.1.2/viz.js' },
+                { src: 'libs/viz.js/2.1.2/full.render.js' },
 
                 ${enableTitleFooter ? `{ src: 'libs/reveal.js/3.7.0/plugin/title-footer/title-footer.js', async: true, callback: function() { title_footer.initialize(); } },` : ''}
                 
@@ -372,7 +376,32 @@
 		toggleChalkboardButton: { left: "60px", bottom: "30px", top: "auto", right: "auto" },
 		toggleNotesButton: { left: "90px", bottom: "30px", top: "auto", right: "auto" },
 		
-	}
+	          },
+            anything: [{
+              className: "lang-plantuml",
+              initialize: (function(container, options) {
+                if ("${plantumlServerUrl}" !== "null") {
+                  var code = plantumlEncoder.encode(container.innerText);
+                  var url = "${plantumlServerUrl}/svg/" + code;
+                  fetch(url).then((body) => body.text()).then((text) => container.parentElement.outerHTML = text);
+                }
+              })
+            }, {
+              className: "lang-graphviz",
+              initialize: (function(container, options) {
+                var viz = new Viz();
+                viz.renderSVGElement(container.innerText).then((element) => {
+                  var newContainer = document.createElement('div');
+                  newContainer.style.textAlign = 'center';
+                  newContainer.appendChild(element)
+                  container.parentElement.replaceWith(newContainer);
+                }).catch((error) => {
+                  container.style.backgroundColor = "#fee";
+                  container.style.fontSize = "70%";
+                  container.innerText = error;
+                });
+              })
+            }]
         });
 
        

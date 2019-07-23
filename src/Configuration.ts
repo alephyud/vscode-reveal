@@ -73,6 +73,7 @@ export interface IExtensionOptions {
   exportHTMLPath: string | null
   openFilemanagerAfterHTMLExport: boolean
   logLevel: LogLevel
+  plantumlServerUrl: string | null
 }
 
 export const getDocumentOptions = (configuration: Configuration) => {
@@ -141,6 +142,7 @@ export const defaultConfiguration: Configuration = {
   exportHTMLPath: `./export`,
   openFilemanagerAfterHTMLExport: true,
   logLevel: LogLevel.Verbose,
+  plantumlServerUrl: 'http://localhost:8080',
 
   enableMenu: true,
   enableChalkboard: true,
