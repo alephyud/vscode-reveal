@@ -383,7 +383,11 @@
                 if ("${plantumlServerUrl}" !== "null") {
                   var code = plantumlEncoder.encode(container.innerText);
                   var url = "${plantumlServerUrl}/svg/" + code;
-                  fetch(url).then((body) => body.text()).then((text) => container.parentElement.outerHTML = text);
+                  fetch(url).then((body) => body.text()).then((text) => container.parentElement.outerHTML = text).catch((error) => {
+                    container.style.backgroundColor = "#fee";
+                    container.style.fontSize = "70%";
+                    container.innerText = error.toString();
+                  });
                 }
               })
             }, {
